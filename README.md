@@ -1,4 +1,4 @@
-To use this application:
+#To use this application:
 
 1- Install dependencies:
 
@@ -12,7 +12,8 @@ To use this application:
 
 http://localhost:3025/api/login
 
-Example of Endpoints to test:
+
+#Example of Endpoints to test:
 
 http://localhost:3025/api/policies?page=1&limit=12
 
@@ -25,12 +26,13 @@ http://localhost:3025/api/clients/a8988671-19a7-478d-b6c7-f345554b8776
 http://localhost:3025/api/clients/a0ece5db-cd14-4f21-812f-966633e7be86/policies
 
 
-To run tests:
+#To run tests:
 
 `$npm run test`
 
+#Comments:
 
-Insurance API does not retunr token maxAge
-Insurance API does not have a limit param on /policies
+- Insurance API does not return token maxAge, for that reason I cached it for 5 minutes.
 
-Swagger Documentation is not correct
+- Could the Swagger documentacion be wrong? Sometimes is confusing because enpoint's requirements are repeated or dont have much sense in terms of performace
+
