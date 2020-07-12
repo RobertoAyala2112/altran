@@ -3,7 +3,7 @@ const Errors = require('../errors/index');
 
 class User {
 	constructor() {
-		this.jwtSecretKey = process.env.JTW_SECRET_KEY || 'key123';
+		this.jwtSecretKey = process.env.JWT_SECRET_KEY || 'key123';
 		this.sessionDuration = process.env.SESSION_DURATION || '3';
 	}
 
