@@ -33,6 +33,12 @@ class InsuranceApi {
 	}
 
 	async getPolicies() {
+		const policies = cache.get('policies');
+
+		if (policies) {
+			return policies;
+		}
+
 		const token = await this.getToken();
 
 		const { body } = await got.get(
@@ -44,6 +50,8 @@ class InsuranceApi {
 				}
 			}
 		);
+
+		cache.set('policies', body);
 
 		return body;
 	}

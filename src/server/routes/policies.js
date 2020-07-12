@@ -18,4 +18,14 @@ router.get(
 	})
 );
 
+router.get(
+	'/policies/:id',
+	auth,
+	checkRole(['user', 'admin']),
+	asyncHandler(async (req, res) => {
+		const policy = await policyController.getById(req.user, req.params.id);
+		res.json(policy);
+	})
+);
+
 module.exports = router;

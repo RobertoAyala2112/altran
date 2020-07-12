@@ -11,6 +11,17 @@ class Policies {
 
 		return policies;
 	}
+
+	async getById(user, policyId) {
+		const policies = await insuranceApiController.getPolicies();
+
+		if (user.role === 'user') {
+			const reduced = policies.filter(policy => policy.id === policyId);
+			return reduced;
+		}
+
+		return policies;
+	}
 }
 
 module.exports = new Policies();
