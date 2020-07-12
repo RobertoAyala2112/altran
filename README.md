@@ -2,11 +2,11 @@
 
 1- Install dependencies:
 
-`$ npm install marked`
+`$ npm install`
 
 2- Start server
 
-`$ npm node src/index`
+`$ node src/index`
 
 3- POST to /api/login to generate and save a token
 
