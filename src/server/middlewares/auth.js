@@ -9,7 +9,7 @@ const validateToken = (req, res, next) => {
 
 		if (req.header('Authorization')) {
 			token = req.header('Authorization').split('Bearer ')[1];
-		} else if (req.cookies['Authorization']) {
+		} else if (req.cookies && req.cookies['Authorization']) {
 			token = req.cookies['Authorization'];
 		}
 

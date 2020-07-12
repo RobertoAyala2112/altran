@@ -14,7 +14,7 @@ class User {
 			throw new Errors.Unauthorized();
 		}
 
-		const token = await jwt.sign({ id: user.id }, this.jwtSecretKey, {
+		const token = await jwt.sign(user, this.jwtSecretKey, {
 			expiresIn: `${this.sessionDuration}h`
 		});
 
@@ -26,8 +26,8 @@ class User {
 	}
 
 	async getUser(data) {
-		//Call user model with credentials to get user from DB or service
-		const user = { id: 1 };
+		//Should call user model with credentials to get user from DB or service. Now returns a mock user
+		const user = { id: 'a0ece5db-cd14-4f21-812f-966633e7be86', role: 'user' };
 		return user;
 	}
 }
