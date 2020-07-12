@@ -5,7 +5,6 @@ const asyncHandler = require('../middlewares/async-handler');
 const auth = require('../middlewares/auth');
 const checkRole = require('../middlewares/roles');
 const user = require('../../controllers/user');
-const { clientId } = require('../../controllers/insurance-api');
 
 router.get(
 	'/clients',
