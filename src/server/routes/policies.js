@@ -12,7 +12,8 @@ router.get(
 	asyncHandler(async (req, res) => {
 		const policies = await policyController.getByRole(
 			req.user,
-			req.param.limit || 10
+			req.query.limit || 10,
+			req.query.page || 1
 		);
 		res.json(policies);
 	})

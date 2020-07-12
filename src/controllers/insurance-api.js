@@ -55,6 +55,30 @@ class InsuranceApi {
 
 		return body;
 	}
+
+	async getClients() {
+		const clients = cache.get('clients');
+
+		if (clients) {
+			return clients;
+		}
+
+		const token = await this.getToken();
+
+		const { body } = await got.get(
+			'https://dare-nodejs-assessment.herokuapp.com/api/clients',
+			{
+				responseType: 'json',
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			}
+		);
+
+		cache.set('clients', body);
+
+		return body;
+	}
 }
 
 module.exports = new InsuranceApi();

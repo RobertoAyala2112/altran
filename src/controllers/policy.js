@@ -1,7 +1,7 @@
 const insuranceApiController = require('../controllers/insurance-api');
 
 class Policies {
-	async getByRole(user, limit) {
+	async getByRole(user, limit, page) {
 		const policies = await insuranceApiController.getPolicies();
 
 		if (user.role === 'user') {
@@ -9,7 +9,7 @@ class Policies {
 			return reduced;
 		}
 
-		return policies;
+		return policies.slice((page - 1) * limit, page * limit);
 	}
 
 	async getById(user, policyId) {
@@ -21,6 +21,14 @@ class Policies {
 		}
 
 		return policies;
+	}
+
+	async getByClient(clientId) {
+		const policies = await insuranceApiController.getPolicies();
+
+		const reduced = policies.filter(policy => policy.clientId === clientId);
+
+		return reduced;
 	}
 }
 

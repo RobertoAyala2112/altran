@@ -27,7 +27,7 @@ class User {
 
 	async getUser(data) {
 		//Should call user model with credentials to get user from DB or service. Now returns a mock user
-		const user = { id: 'a0ece5db-cd14-4f21-812f-966633e7be86', role: 'user' };
+		const user = { id: 'a0ece5db-cd14-4f21-812f-966633e7be86', role: 'admin' };
 		return user;
 	}
 }
