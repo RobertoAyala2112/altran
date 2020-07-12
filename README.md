@@ -8,7 +8,7 @@
 
 `$ node src/index`
 
-3- POST to /api/login (Postman app recommended) to generate and save a token as a cookie
+3- POST to /api/login (Postman app recommended) to generate and save a token as a cookie:
 
 http://localhost:3025/api/login
 
@@ -16,7 +16,7 @@ This will generate a token for a mock user (on production environment it would f
 
 `{ id: 'a0ece5db-cd14-4f21-812f-966633e7be86', role: 'admin' }`
 
-To test with `user` role, change it on file `/src/controllers/user`.
+To test with `user` role, change mock on file `/src/controllers/user`.
 
 ### Example of Endpoints to test (Postman app recommended):
 
