@@ -1,4 +1,4 @@
-const insuranceApiController = require('../controllers/insurance-api');
+const insuranceApiController = require('./insurance-api');
 
 class Policies {
 	async getByRole(user, limit, page) {
