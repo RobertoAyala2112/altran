@@ -20,15 +20,15 @@ To test with `user` role, change mock on file `/src/controllers/user`.
 
 ### Example of Endpoints to test (Postman app recommended):
 
-http://localhost:3025/api/policies?page=1&limit=12
+GET http://localhost:3025/api/policies?page=1&limit=12
 
-http://localhost:3025/api/policies/7b624ed3-00d5-4c1b-9ab8-c265067ef58b
+GET http://localhost:3025/api/policies/7b624ed3-00d5-4c1b-9ab8-c265067ef58b
 
-http://localhost:3025/api/clients?page=2
+GET http://localhost:3025/api/clients?page=2
 
-http://localhost:3025/api/clients/a8988671-19a7-478d-b6c7-f345554b8776
+GET http://localhost:3025/api/clients/a8988671-19a7-478d-b6c7-f345554b8776
 
-http://localhost:3025/api/clients/a0ece5db-cd14-4f21-812f-966633e7be86/policies
+GET http://localhost:3025/api/clients/a0ece5db-cd14-4f21-812f-966633e7be86/policies
 
 ### To run tests:
 
