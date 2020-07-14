@@ -22,7 +22,7 @@ class Clients {
 	}
 
 	async getClientPolicies(clientId) {
-		let client = await this.getById(clientId);
+		const client = await this.getById(clientId);
 
 		const policies = await policyController.getByClient(clientId);
 

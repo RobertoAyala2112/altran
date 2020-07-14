@@ -1,16 +1,17 @@
 const jwt = require('jsonwebtoken');
 const Errors = require('../../errors/index');
 
-const jwtSecretKey = process.env.JWT_SECRET_KEY || 'key123';
+const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
 const validateToken = (req, res, next) => {
 	try {
 		let token;
 
 		if (req.header('Authorization')) {
+			// eslint-disable-next-line
 			token = req.header('Authorization').split('Bearer ')[1];
-		} else if (req.cookies && req.cookies['Authorization']) {
-			token = req.cookies['Authorization'];
+		} else if (req.cookies && req.cookies.Authorization) {
+			token = req.cookies.Authorization;
 		}
 
 		if (!token) {

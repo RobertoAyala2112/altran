@@ -1,12 +1,13 @@
 const got = require('got');
+const moment = require('moment');
 const CacheManager = require('../modules/cache');
 
 const cache = CacheManager.memory('insurance-api');
 
 class InsuranceApi {
 	constructor() {
-		this.clientId = process.env.INSURANCE_API_CLIENT_ID || 'axa';
-		this.clientSecret = process.env.INSURANCE_API_CLIENT_SECRET || 's3cr3t';
+		this.clientId = process.env.INSURANCE_API_CLIENT_ID;
+		this.clientSecret = process.env.INSURANCE_API_CLIENT_SECRET;
 	}
 
 	async login() {
@@ -41,7 +42,7 @@ class InsuranceApi {
 
 		const token = await this.getToken();
 
-		const { body } = await got.get(
+		const response = await got.get(
 			'https://dare-nodejs-assessment.herokuapp.com/api/policies',
 			{
 				responseType: 'json',
@@ -51,9 +52,13 @@ class InsuranceApi {
 			}
 		);
 
-		cache.set('policies', body);
+		const responseExpires = moment(response.headers.expires).unix();
 
-		return body;
+		const cacheExpires = moment().diff(responseExpires, 'milliseconds');
+
+		cache.set('policies', response.body, cacheExpires);
+
+		return response.body;
 	}
 
 	async getClients() {
@@ -65,7 +70,7 @@ class InsuranceApi {
 
 		const token = await this.getToken();
 
-		const { body } = await got.get(
+		const response = await got.get(
 			'https://dare-nodejs-assessment.herokuapp.com/api/clients',
 			{
 				responseType: 'json',
@@ -75,9 +80,13 @@ class InsuranceApi {
 			}
 		);
 
-		cache.set('clients', body);
+		const responseExpires = moment(response.headers.expires).unix();
 
-		return body;
+		const cacheExpires = moment().diff(responseExpires, 'milliseconds');
+
+		cache.set('clients', response.body, cacheExpires);
+
+		return response.body;
 	}
 }
 
