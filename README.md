@@ -32,6 +32,8 @@ http://localhost:3025/api/clients/a0ece5db-cd14-4f21-812f-966633e7be86/policies
 
 ### To run tests:
 
+### To run tests:
+
 `$ npm run test`
 
 ### Comments:
@@ -45,3 +47,5 @@ For example, this enpoint:
 http://localhost:3025/api/policies/7b624ed3-00d5-4c1b-9ab8-c265067ef58b
 
 Returns all polices if user's roles is `admin` or that specific policy if `user`
+
+- Insurance API does not return token maxAge, for that reason I cached it for 5 minutes.
