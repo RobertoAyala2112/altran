@@ -1,5 +1,7 @@
 const got = require('got');
 const moment = require('moment');
+const jwt = require('jsonwebtoken');
+
 const CacheManager = require('../modules/cache');
 
 const cache = CacheManager.memory('insurance-api');
@@ -24,20 +26,26 @@ class InsuranceApi {
 
 	async getToken() {
 		let token = cache.get('token');
+
 		if (!token) {
 			token = await this.login();
-			// I sopuse that token expires in 5 minutes
-			cache.set('token', token, 5 * 60000);
+
+			const { exp } = jwt.decode(token);
+
+			const cacheExpires = moment().diff(exp, 'milliseconds');
+
+			cache.set('token', token, cacheExpires);
 		}
 
 		return token;
 	}
 
 	async getPolicies() {
-		const policies = cache.get('policies');
+		const fromCache = cache.get('policies');
 
-		if (policies) {
-			return policies;
+		let lastVersion;
+		if (fromCache) {
+			lastVersion = fromCache.lastVersion;
 		}
 
 		const token = await this.getToken();
@@ -47,25 +55,34 @@ class InsuranceApi {
 			{
 				responseType: 'json',
 				headers: {
-					Authorization: `Bearer ${token}`
+					Authorization: `Bearer ${token}`,
+					'If-None-Match': lastVersion
 				}
 			}
 		);
 
-		const responseExpires = moment(response.headers.expires).unix();
+		if (response.statusCode === 200) {
+			const responseExpires = moment(response.headers.expires).unix();
+			const cacheExpires = moment().diff(responseExpires, 'milliseconds');
 
-		const cacheExpires = moment().diff(responseExpires, 'milliseconds');
+			cache.set(
+				'policies',
+				{ lastVersion: response.headers.etag, body: response.body },
+				cacheExpires
+			);
 
-		cache.set('policies', response.body, cacheExpires);
+			return response.body;
+		}
 
-		return response.body;
+		return fromCache.body;
 	}
 
 	async getClients() {
-		const clients = cache.get('clients');
+		const fromCache = cache.get('clients');
 
-		if (clients) {
-			return clients;
+		let lastVersion;
+		if (fromCache) {
+			lastVersion = fromCache.lastVersion;
 		}
 
 		const token = await this.getToken();
@@ -75,18 +92,26 @@ class InsuranceApi {
 			{
 				responseType: 'json',
 				headers: {
-					Authorization: `Bearer ${token}`
+					Authorization: `Bearer ${token}`,
+					'If-None-Match': lastVersion
 				}
 			}
 		);
 
-		const responseExpires = moment(response.headers.expires).unix();
+		if (response.statusCode === 200) {
+			const responseExpires = moment(response.headers.expires).unix();
+			const cacheExpires = moment().diff(responseExpires, 'milliseconds');
 
-		const cacheExpires = moment().diff(responseExpires, 'milliseconds');
+			cache.set(
+				'clients',
+				{ lastVersion: response.headers.etag, body: response.body },
+				cacheExpires
+			);
 
-		cache.set('clients', response.body, cacheExpires);
+			return response.body;
+		}
 
-		return response.body;
+		return fromCache.body;
 	}
 }
 
