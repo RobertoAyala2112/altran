@@ -1,5 +1,6 @@
 const got = require('got');
 const moment = require('moment');
+const jwt = require('jsonwebtoken');
 const CacheManager = require('../modules/cache');
 
 const cache = CacheManager.memory('insurance-api');
@@ -26,8 +27,12 @@ class InsuranceApi {
 		let token = cache.get('token');
 		if (!token) {
 			token = await this.login();
-			// I sopuse that token expires in 5 minutes
-			cache.set('token', token, 5 * 60000);
+
+			const { exp } = jwt.decode(token);
+
+			const cacheExpires = moment().diff(exp, 'milliseconds');
+
+			cache.set('token', token, cacheExpires);
 		}
 
 		return token;
