@@ -6,6 +6,13 @@
 
 2- Start server
 
+Following Env variables must be setted:
+```
+JWT_SECRET_KEY
+INSURANCE_API_CLIENT_ID
+INSURANCE_API_CLIENT_SECRET
+SESSION_DURATION
+```
 `$ node src/index`
 
 3- POST to /api/login (Postman app recommended) to generate and save a token as a cookie:
